@@ -2,23 +2,31 @@
 <html lang='en'>
 
 <head>
-    <link rel='stylesheet' src='main.css'>
-    <tittle>Floor is Lava</tittle>
+    <link rel='stylesheet' href='main.css'>
 </head>
 
 <body>
-<div>
-<button id='start-btn'>Start</button>
-</div>
+    <header>
+        <div id='title'>
+            <img src='https://cdn-www.bluestacks.com/bs-images/logo355.png' alt='Floor is Lava'>
+        </div>
+        <div>
+            <h3 id='score'>
+                <e>YOUR SCORE: </e>
+            </h3>
+        </div>
+    </header>
+    <section>
+        <div id="game-board">
+            <canvas id="canvas" width="900" height="600"></canvas>
+        </div>
+    </section>
 
-
-    <div id="game-board">
-        <canvas id="canvas" width="500" height="700"></canvas>
-    </div>
-
-
-
-
+    <section>
+        <div>
+            <button id='start-btn'><b>START</b></button>
+        </div>
+    </section>
 
 
     <script type='text/javascript' src='main.js'></script>
