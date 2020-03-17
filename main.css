@@ -26,8 +26,6 @@ section {
 
 }
 
-#tittle {}
-
 #canvas {
     border-style: solid;
 
@@ -43,7 +41,20 @@ section {
     border-radius: 20%;
     font-family: OCR A Std, monospace;
     font-size: 1em;
-    display: flex;
+    justify-content: center;
+
+}
+
+#reset-btn {
+    background: #ff4040;
+    margin: 10px;
+    padding: 10px;
+    width: auto;
+    height: auto;
+    border-style: solid;
+    border-radius: 20%;
+    font-family: OCR A Std, monospace;
+    font-size: 1em;
     justify-content: center;
 
 }
@@ -52,6 +63,6 @@ section {
     font-family: OCR A Std, monospace
 }
 
-span{
+span {
     font-family: OCR A Std, monospace
 }

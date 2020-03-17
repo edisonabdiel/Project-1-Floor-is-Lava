@@ -2,6 +2,7 @@ window.onload = () => {
     let score = document.querySelector("span")
     let canvas = document.getElementById("canvas")
     let ctx = canvas.getContext("2d")
+    let soundTrack = new Audio("src/sounds/floorislava.wav")
     let lava = new Image()
     lava.src = "src/lava.png"
     let monkey = []
@@ -150,8 +151,14 @@ window.onload = () => {
         window.requestAnimationFrame(draw)
     }
     function startGame() {
+        soundTrack.addEventListener('ended', function () {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        soundTrack.play()
         rectCharacter.update()
         obstacleArr.push(new Obstacle(rectCharacter.x, rectCharacter.bottom(), 700, 30, 6))
+        soundTrack.play()
         draw()
     }
     let countjump = 0
