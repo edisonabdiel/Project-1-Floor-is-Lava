@@ -7,6 +7,8 @@ window.onload = () => {
     let monkey = []
     let rock = new Image()
     rock.src = "src/rock.png"
+    let spiky = new Image()
+    spiky.src = "src/spiky.png"
     for (i = 0; i < 7; i++) {
         monkey.push(new Image())
     }
@@ -21,7 +23,7 @@ window.onload = () => {
         startGame();
     };
     let rectCharacter = {
-        x: 40,
+        x: 240,
         y: 400,
         width: 50,
         height: 100,
@@ -51,7 +53,7 @@ window.onload = () => {
             return this.x + this.width
         },
         crashWith: function (obstacle) {
-            return this.speed >= 0 && !(
+            return this.speed >= 0 && (this.bottom() < obstacle.top() + 20) && !(
                 this.bottom() < obstacle.top() ||
                 this.top() > obstacle.bottom() ||
                 this.right() < obstacle.left() ||
@@ -60,20 +62,21 @@ window.onload = () => {
         },
         hitBottom: function () {
             if (this.bottom() >= 670) {
-                gamerunning = false
+                gamerunnig = false
             }
         }
     }
     class Obstacle {
-        constructor() {
-            this.x = 900
-            this.y = Math.floor(Math.random() * (560 - 200 + 1) + 200)
-            this.width = Math.floor(Math.random() * (200 - 70 + 1) + 70)
-            this.height = 30
+        constructor(x, y, width, height, speed) {
+            this.x = x
+            this.y = y
+            this.width = width
+            this.height = height
+            this.speed = speed
         }
         update() {
             ctx.drawImage(rock, this.x, this.y, this.width, this.height)
-            this.x -= 6
+            this.x -= this.speed
         }
         top() {
             return this.y
@@ -88,12 +91,23 @@ window.onload = () => {
             return this.x + this.width
         }
     }
+    class spikyObstacle extends Obstacle {
+        constructor(x, y, width, height, speed) {
+            super(x, y, width, height, speed)
+        }
+        update() {
+            ctx.drawImage(spiky, this.x, this.y, this.width, this.height)
+            this.x -= this.speed
+        }
+    }
     let obstacleArr = []
     let frameCounter = 0
-    let index = 0
-    let gamerunning = true
+    let spikyObstacArr = []
+    let index = 0 //To print the different pictures for the monkey 
+    let gamerunnig = true
+    currentCrashSpiky = false
     let draw = () => {
-        if (!gamerunning){
+        if (!gamerunnig) {
             return
         }
         score.innerText = frameCounter
@@ -103,33 +117,41 @@ window.onload = () => {
         rectCharacter.update
         rectCharacter.hitBottom()
         frameCounter++
-        let currentCrash = false
+        let currentCrashObstacle = false
         obstacleArr.forEach((o) => {
             if (rectCharacter.crashWith(o)) {
-                currentCrash = true
+                currentCrashObstacle = true
             }
             o.update()
         })
-        if (currentCrash) {
+        spikyObstacArr.forEach((o) => {
+            if (rectCharacter.crashWith(o)) {
+                currentCrashSpiky = true
+            }
+            o.update()
+        })
+        if (currentCrashObstacle) {
             rectCharacter.speed = 0;
             rectCharacter.gravity = 0;
             countjump = 0
         } else {
             rectCharacter.gravity = 0.6;
         }
+        if (currentCrashSpiky) {
+            return
+        }
         rectCharacter.update()
         if ((frameCounter % 25) === 0) {
-            obstacleArr.push(new Obstacle())
+            obstacleArr.push(new Obstacle(900, Math.floor(Math.random() * (560 - 200 + 1) + 200), Math.floor(Math.random() * (200 - 70 + 1) + 70), 30, 6))
+        }
+        if ((frameCounter % 60) === 0) {
+            spikyObstacArr.push(new spikyObstacle(900, Math.floor(Math.random() * (560 - 200 + 1) + 200), Math.floor(Math.random() * (200 - 70 + 1) + 70), 30, 11))
         }
         window.requestAnimationFrame(draw)
     }
     function startGame() {
         rectCharacter.update()
-        obstacleArr.push(new Obstacle())
-        obstacleArr[0].x = rectCharacter.x
-        obstacleArr[0].y = rectCharacter.bottom()
-        obstacleArr[0].width = 700
-        obstacleArr[0].height = 30
+        obstacleArr.push(new Obstacle(rectCharacter.x, rectCharacter.bottom(), 700, 30, 6))
         draw()
     }
     let countjump = 0
