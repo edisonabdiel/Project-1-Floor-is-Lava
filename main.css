@@ -11,7 +11,7 @@ header {
     padding-left: 400px;
 }
 
-h3{
+h3 {
     color: #0e0101;
 }
 
@@ -20,15 +20,13 @@ section {
     justify-content: space-evenly;
 }
 
-#canvas{
+#canvas {
     background-image: url(https://cdn130.picsart.com/276356179044211.png);
-    background-color:rgb(32, 32, 32);
+    background-color: rgb(32, 32, 32);
 
 }
 
-#tittle {
-    
-}
+#tittle {}
 
 #canvas {
     border-style: solid;
@@ -51,5 +49,9 @@ section {
 }
 
 #score {
-    font-family:OCR A Std, monospace
+    font-family: OCR A Std, monospace
+}
+
+span{
+    font-family: OCR A Std, monospace
 }
