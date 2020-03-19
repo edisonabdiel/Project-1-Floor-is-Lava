@@ -5,11 +5,11 @@ The huge explotion threw thousends of rocks flying in the air, which now Mr Monk
 
 <big>Game Rules:<big/>
 
-.Mr Monkey can make only two jumps at a time while avoiding to jump on the spiky obstacles coming from the side of the screen.
+- Mr Monkey can make only two jumps at a time while avoiding to jump on the spiky obstacles coming from the side of the screen.
 
-.To make Mr Monkey jump press the key up.
+- To make Mr Monkey jump press the key up.
 
-.Stay away from the lava.
+- Stay away from the lava.
 
 
 
