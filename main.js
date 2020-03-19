@@ -2,13 +2,14 @@ window.onload = () => {
     let score = document.querySelector("span")
     let canvas = document.getElementById("canvas")
     let ctx = canvas.getContext("2d")
-    let soundTrack = new Audio("src/sounds/floorislava.wav")
     let lava = new Image()
     lava.src = "src/lava.png"
     let monkey = []
     let rock = new Image()
     rock.src = "src/rock.png"
     let spiky = new Image()
+    let soundTrack = new Audio("src/sounds/floorislava.wav")
+    let jump = new Audio("src/sounds/jumpSound.wav")
     spiky.src = "src/spiky.png"
     for (i = 0; i < 7; i++) {
         monkey.push(new Image())
@@ -21,10 +22,15 @@ window.onload = () => {
     monkey[5].src = "src/tile005.png"
     monkey[6].src = "src/tile006.png"
     document.getElementById('start-btn').onclick = () => {
+        playMusic()
         startGame();
     };
+    document.getElementById('reset-btn').onclick = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        onload()
+    }
     let rectCharacter = {
-        x: 240,
+        x: 130,
         y: 400,
         width: 50,
         height: 100,
@@ -39,7 +45,7 @@ window.onload = () => {
             return this.y + this.height
         },
         backSpaceUp: function () {
-            this.speed = -13    // setTimeout(() => { this.speed = 0 }, 500)
+            this.speed = -13    // setTimeout(() => { jump.pause()}, 200)
         },
         top: function () {
             return this.y
@@ -65,6 +71,9 @@ window.onload = () => {
             if (this.bottom() >= 670) {
                 gamerunnig = false
             }
+        },
+        clear: function () {
+            ctx.clearRect(this.x, this.y, this.width, this.height)
         }
     }
     class Obstacle {
@@ -101,6 +110,7 @@ window.onload = () => {
             this.x -= this.speed
         }
     }
+    let lives = 3
     let obstacleArr = []
     let frameCounter = 0
     let spikyObstacArr = []
@@ -109,13 +119,14 @@ window.onload = () => {
     currentCrashSpiky = false
     let draw = () => {
         if (!gamerunnig) {
+            soundTrack.pause()
             return
         }
         score.innerText = frameCounter
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(lava, -5, canvas.height - 93, canvas.width + 10, 100)
         index = frameCounter % monkey.length
-        rectCharacter.update
+        //rectCharacter.update
         rectCharacter.hitBottom()
         frameCounter++
         let currentCrashObstacle = false
@@ -139,6 +150,7 @@ window.onload = () => {
             rectCharacter.gravity = 0.6;
         }
         if (currentCrashSpiky) {
+            soundTrack.pause()
             return
         }
         rectCharacter.update()
@@ -151,21 +163,25 @@ window.onload = () => {
         window.requestAnimationFrame(draw)
     }
     function startGame() {
+        rectCharacter.update()
+        obstacleArr.push(new Obstacle(rectCharacter.x, rectCharacter.bottom(), 700, 30, 6))
+        draw()
+    }
+    function playMusic() {
         soundTrack.addEventListener('ended', function () {
             this.currentTime = 0;
             this.play();
         }, false);
         soundTrack.play()
-        rectCharacter.update()
-        obstacleArr.push(new Obstacle(rectCharacter.x, rectCharacter.bottom(), 700, 30, 6))
-        soundTrack.play()
-        draw()
     }
     let countjump = 0
     document.onkeydown = function (e) {
         switch (e.keyCode) {
             case 38:
                 countjump++
+                console.log("corona")
+                jump.pause()
+                jump.play()
                 if (countjump <= 2) {
                     rectCharacter.backSpaceUp();
                 }
