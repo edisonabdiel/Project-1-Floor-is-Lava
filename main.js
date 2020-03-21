@@ -26,8 +26,7 @@ window.onload = () => {
         startGame();
     };
     document.getElementById('reset-btn').onclick = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        onload()
+        window.location.reload()
     }
     let rectCharacter = {
         x: 130,
@@ -45,7 +44,7 @@ window.onload = () => {
             return this.y + this.height
         },
         backSpaceUp: function () {
-            this.speed = -13    // setTimeout(() => { jump.pause()}, 200)
+            this.speed = -13    
         },
         top: function () {
             return this.y
@@ -126,7 +125,6 @@ window.onload = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(lava, -5, canvas.height - 93, canvas.width + 10, 100)
         index = frameCounter % monkey.length
-        //rectCharacter.update
         rectCharacter.hitBottom()
         frameCounter++
         let currentCrashObstacle = false
@@ -179,10 +177,9 @@ window.onload = () => {
         switch (e.keyCode) {
             case 38:
                 countjump++
-                console.log("corona")
-                jump.pause()
-                jump.play()
                 if (countjump <= 2) {
+                    jump.currentTime = 0
+                    jump.play()
                     rectCharacter.backSpaceUp();
                 }
                 break;
